@@ -1,16 +1,20 @@
-# api dockerfile
-FROM node:14
+# Use an official Node.js 18 image as a base
+FROM node:18
 
+# Set the working directory to /app
 WORKDIR /app
 
-COPY nestjs-backend/package*.json ./
+# Copy the package*.json files to the working directory
+COPY package*.json ./
 
+# Install the dependencies
 RUN npm install
 
-COPY nestjs-backend/. .
+# Copy the application code to the working directory
+COPY . .
 
-RUN npm run build
-
+# Expose port 3000 for the NestJS development server
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Run the command to start the NestJS development server
+CMD ["npm", "run", "start"]
