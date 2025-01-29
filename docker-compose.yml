@@ -1,7 +1,6 @@
 services:
   client:
     build: ./client
-    # command: npm run start
     ports:
       - "8080:4201"
     depends_on:
@@ -11,6 +10,9 @@ services:
     build: ./api
     ports:
       - "3010:3100"
+    networks:
+      blog_default:
+        ipv4_address: 172.19.0.10
 
   db:
     image: postgres
@@ -20,4 +22,10 @@ services:
       POSTGRES_DB: mydb
     ports:
       - "5432:5432"
- 
+
+networks:
+  blog_default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
