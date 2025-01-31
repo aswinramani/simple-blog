@@ -1,0 +1,22 @@
+services:
+  client:
+    build: ./client
+    ports:
+      - "8080:4201"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    ports:
+      - "3010:3100"
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+ 
