@@ -1,0 +1,43 @@
+We are given a two dimensional board of size N x M (N rows and M columns).
+Each field of the board can be empty ('.'), may contain an obstacle ('X') or may have a character in it. 
+The character might be either an assassin ('A') or a guard. Each guard stands still and looks straight ahead,
+in the direction they are facing. 
+
+Every guard looks in one of four directions (up, down, left or right on the board) and is represented by 
+one of four symbols. A guard denoted by '<' is looking to the left; by '>' to the right;'^', up;'v', down.
+The guards can see everything in straight line in the direction in which they are facing, as far as the
+first obstacle ('X' or any other guard) or  the edge of the board. 
+
+The assassin can move from the current field to any other empty field with a shared edge.
+The assassin cannot move onto fields containing obstacles or enemies.
+
+Write a function:
+
+    def solution(B):
+
+that given an array B consisting of N strings denoting rows of the array, returns True if is it possible 
+for the assassin to sneak from their current location to the bottom right cell of the board undetected
+and False otherwise. 
+
+Examples:
+
+1. Given B = ["X.....>", "..v..X.", ".>..X..", "A......"], your function should return False.
+All available paths lead through a field observed by a guard.
+
+2. Given B = ["...Xv", "AX..^", ".XX.."], your function should return True. 
+The guard in the second row is blocking the other one from watching the bottom right square.
+
+3. Given B = ["...", ">.A"], your function should return False.
+As the assassin gets spotted right at the start.
+
+4. Given B = ["A.v", "..."], your function should return False. 
+Its not possible for the assassin to enter the bottom right cell undetected as the cell is observed.
+
+Write an efficient algorithm for the following assumptions:
+
+1. N is an integer within the range [1..500]
+2. all strings in B are of the same length M from range [1..500]
+3. there is exactly one assassins on the board.
+4. there is no guard or wall on B[N-1][M-1]
+5. every string in B consists only of the following characters '.', 'X', 'A', '<', '>', '^' and/or 'v'
+
