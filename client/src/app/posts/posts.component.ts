@@ -42,8 +42,8 @@ export class PostsComponent implements OnInit {
     this.loadPosts();
   }
 
-  navigateToDetail(id: string): void {
-    console.log('Navigating to post', id);
-    this.router.navigate(['/post', id]);
+  navigateToDetail(post:any): void {
+    this.postService.setPostDetailData(post);
+    this.router.navigate(['/post', post.id]);
   }
 }

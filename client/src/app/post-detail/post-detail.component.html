@@ -1,1 +1,9 @@
-<p>post-detail works!</p>
+<div id="post-detail-container">
+    <div *ngIf="onGoingRequest">
+        <p>Loading...</p>
+    </div>
+    <div *ngIf="!onGoingRequest">
+        <h2 >{{ post.title }}</h2>
+        <h4>{{ post.content }}</h4>
+    </div>
+</div>

@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class PostService {
   private apiUrl = 'http://localhost:3100';
+  private postDetailData: any;
 
   constructor(private http: HttpClient) {}
 
@@ -14,11 +15,19 @@ export class PostService {
     return firstValueFrom(this.http.get(`${this.apiUrl}/posts?offset=${offset}&limit=${limit}`));
   }
 
-  getPostById(postId: string) {
-    return this.http.get<any>(`${this.apiUrl}/posts/${postId}`);
+  async getPostById(postId: string) {
+    return firstValueFrom(this.http.get(`${this.apiUrl}/posts/${postId}`));
   }
 
   async createPost(postData: any) {
     return firstValueFrom(this.http.post(`${this.apiUrl}/posts`, postData));
+  }
+
+  setPostDetailData(post: any) {
+    this.postDetailData = post;
+  }
+
+  getPostDetailData() {
+    return this.postDetailData;
   }
 }
