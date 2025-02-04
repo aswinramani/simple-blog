@@ -1,0 +1,16 @@
+<div id="posts-container">
+    <div *ngIf="onGoingRequest">
+        <p>Loading...</p>
+    </div>
+    <div>
+        <button (click)="create()">Create Post</button>
+    </div>
+    <div *ngIf="!onGoingRequest && posts.length">
+        <div class="post" *ngFor="let post of posts">
+            <h2 (click)="navigateToDetail(post.id)">{{ post.title }}</h2>
+        </div>
+    </div>
+    <div *ngIf="!onGoingRequest && !posts.length">
+        <p>No posts found</p>
+    </div>
+</div>

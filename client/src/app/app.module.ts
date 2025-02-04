@@ -7,18 +7,26 @@ import { appConfig } from './app.config';
 import { AuthRedirectComponent } from './auth-redirect/auth-redirect.component';
 import { FacebookAuthModule } from './facebook-auth.module';
 import { GoogleAuthModule } from './google-auth.module';
-
+import { PostsComponent } from './posts/posts.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { NewPostComponent } from './new-post/new-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    AuthRedirectComponent
+    AuthRedirectComponent,
+    PostsComponent,
+    PostDetailComponent,
+    NewPostComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     GoogleAuthModule,
     FacebookAuthModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     ...appConfig.providers,

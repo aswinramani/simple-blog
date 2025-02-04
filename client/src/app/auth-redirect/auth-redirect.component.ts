@@ -15,7 +15,7 @@ export class AuthRedirectComponent implements OnInit{
       const token = params['token'];
       if (token) {
         this.tokenStorage.storeToken(token);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/posts']);
       } else {
         this.router.navigate(['/login']);
       }

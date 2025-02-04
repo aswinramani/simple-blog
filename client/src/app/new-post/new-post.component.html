@@ -1,0 +1,27 @@
+<p>new-post works!</p>
+<div class="new-post-container">
+    <h1>Create a new post</h1>
+    <form [formGroup]="postForm" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" formControlName="title" class="form-control">
+        <div *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched" class="error-message">
+          <div *ngIf="postForm.get('title')?.errors?.['invalidTitle']">Invalid title characters</div>
+          <div *ngIf="postForm.get('title')?.errors?.['required']">Title is required</div>
+          <div *ngIf="postForm.get('title')?.errors?.['minlength']">Title must be at least 5 characters</div>
+          <div *ngIf="postForm.get('title')?.errors?.['maxlength']">Title must be no more than 75 characters</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" formControlName="content" class="form-control"></textarea>
+        <div *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched" class="error-message">
+          <div *ngIf="postForm.get('content')?.errors?.['invalidContent']">Invalid Content characters</div>
+          <div *ngIf="postForm.get('content')?.errors?.['required']">Content is required</div>
+          <div *ngIf="postForm.get('content')?.errors?.['minlength']">Content must be at least 10 characters</div>
+          <div *ngIf="postForm.get('content')?.errors?.['maxlength']">Content must be no more than 350 characters</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!postForm.valid">Create Post</button>
+    </form>
+  </div>
