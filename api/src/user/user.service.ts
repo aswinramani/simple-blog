@@ -12,6 +12,15 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async findByUserId(id: number): Promise<User> {
+    return this.userRepository.findOne({
+      where: {
+        id
+      },
+      select: ['id', 'email', 'google_id', 'facebook_id'],
+    });
+  }
+
   async findByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({
       where: {
@@ -33,8 +42,7 @@ export class UserService {
   }
 
   async update(id, updateUserDto: UpdateUserDto): Promise<void> {
-    let updatedResult = await this.userRepository.update(id, updateUserDto);
-    console.log({updatedResult})
+    await this.userRepository.update(id, updateUserDto);
   }
 
 }

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Post } from '../post/post.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -19,6 +20,9 @@ export class User {
 
   @Column({ unique: true, nullable: true })
   facebook_id: string;
+
+  @OneToMany(() => Post, (post) => post.author)
+  posts: Post[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
