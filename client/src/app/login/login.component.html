@@ -1,5 +1,11 @@
-<p>login works!</p>
 <div class="login-container">
-  <button (click)="login()">Login with Google</button>
-  <button (click)="facebookLogin()">Login with Facebook</button>
+  <div class="login-title">SoundBait Login</div>
+  <div class="login-button-container">
+    <button mat-stroked-button class="login-button google-login" (click)="googleLogin()">
+      Google
+    </button>
+    <button mat-stroked-button class="login-button facebook-login" (click)="facebookLogin()">
+      Meta
+    </button>
+  </div>
 </div>

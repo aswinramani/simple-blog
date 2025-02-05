@@ -2,8 +2,8 @@
     <div *ngIf="onGoingRequest">
         <p>Loading...</p>
     </div>
-    <div>
-        <button (click)="create()">Create Post</button>
+    <div class="create-button">
+        <button mat-stroked-button (click)="create()">Create Post</button>
     </div>
     <div *ngIf="!onGoingRequest && posts.length">
         <div class="post" *ngFor="let post of posts">

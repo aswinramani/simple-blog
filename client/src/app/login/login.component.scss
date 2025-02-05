@@ -1,0 +1,27 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.login-title {
+  font-size: 1.5rem; 
+  margin-bottom: 4rem;
+  color: #005cbb;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+}
+
+.login-button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
