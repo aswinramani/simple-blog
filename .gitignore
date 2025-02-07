@@ -1,5 +1,6 @@
 */.env
 */.env.*
+client/src/environments/environment.ts
 **/node_modules
 **/dist
 .angular/
