@@ -2,13 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PostService } from '../services/post.service'
 import { Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Post } from '../interfaces/Post';
+import { PostCount } from '../interfaces/PostCount';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss'
 })
 export class PostsComponent implements OnInit {
-  posts: any[] = [];
+  posts: Post[] = [];
   offset: number = 0;
   limit: number = 10;
   onGoingRequest: boolean = true;
@@ -32,14 +34,14 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/post/new']);
   }
 
-  async loadPosts() {
+  async loadPosts(): Promise<void> {
     this.onGoingRequest = true;
     try {
-      const posts:any = await this.postService.getPosts(this.offset, this.limit);
+      const posts:Post[] = await this.postService.getPosts(this.offset, this.limit);
       if (!this.posts.length) {
         this.posts = posts;
         if (posts.length === this.limit) {
-          const countResp:any = await this.postService.getCount();
+          const countResp:PostCount = await this.postService.getCount();
           this.totalPosts = countResp['totalCount'];
         } else {
           this.totalPosts = this.posts.length;
@@ -53,7 +55,7 @@ export class PostsComponent implements OnInit {
     this.onGoingRequest = false;
   }
 
-  loadMore(event: PageEvent) {
+  loadMore(event: PageEvent): void {
     this.offset = event.pageIndex * event.pageSize;
     this.limit = event.pageSize;
     if (this.posts.length < this.totalPosts) {
@@ -66,7 +68,7 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/post', post.id]);
   }
 
-  get paginatedPosts(): any[] {
+  get paginatedPosts(): Post[] {
     const startIndex = (this.paginator.pageIndex || 0) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.posts.slice(startIndex, endIndex);
