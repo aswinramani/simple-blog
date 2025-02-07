@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TokenStorageService } from '../token-storage/token-storage.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-auth-redirect',
@@ -8,13 +8,21 @@ import { TokenStorageService } from '../token-storage/token-storage.service';
   styleUrl: './auth-redirect.component.scss'
 })
 export class AuthRedirectComponent implements OnInit{
-  constructor(private route: ActivatedRoute, private router: Router, private tokenStorage: TokenStorageService,) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private readonly authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const token = params['token'];
+      const refreshToken = params['refresh'];
+      if (refreshToken) {
+        this.authService.storeTokenByKey('refreshToken', refreshToken);
+      }
       if (token) {
-        this.tokenStorage.storeToken(token);
+        this.authService.storeTokenByKey('accessToken', token);
         this.router.navigate(['/posts']);
       } else {
         this.router.navigate(['/login']);

@@ -41,6 +41,13 @@ export class PostService {
       .limit(limit) // Use limit instead of take for PostgreSQL compatibility
       .getMany();
   }
+
+  async countByAuthorId(authorId: number): Promise<number> {
+    return this.postRepository
+      .createQueryBuilder('posts')
+      .where('posts.author_id = :authorId', { authorId })
+      .getCount();
+  }
   
 
   async findByPostId(id: string): Promise<Post> {
@@ -52,24 +59,12 @@ export class PostService {
     });
   }
 
-  async countByAuthorId(authorId: number): Promise<number> {
-    return this.postRepository
-      .createQueryBuilder('posts')
-      .where('posts.author_id = :authorId', { authorId })
-      .getCount();
-  }
-
-  async getPaginatedPosts(
+  async getPosts(
     authorId: number,
     offset: number = 0,
     limit: number = 10,
-  ): Promise<{ posts: Post[]; hasNextPage: boolean }> {
-    const [posts, count] = await Promise.all([
-      this.findByAuthorId(authorId, offset, limit),
-      this.countByAuthorId(authorId),
-    ]);
-
-    const hasNextPage = count > offset + limit;
-    return { posts, hasNextPage };
+  ): Promise<Post[]> {
+    const posts = await this.findByAuthorId(authorId, offset, limit);
+    return posts;
   }
 }

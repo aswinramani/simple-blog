@@ -19,7 +19,7 @@ export class UtilsService {
   }
 
   formatDate(date: Date): string {
-    return date.toISOString(); // Placeholder
+    return date.toISOString();
   }
 
 }

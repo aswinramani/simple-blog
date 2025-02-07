@@ -1,5 +1,6 @@
 <div class="blog-container">
     <header>
+        <div id="logout" *ngIf="showLogout" (click)="logout()">Logout</div>
     </header>
     <router-outlet />
     <footer>

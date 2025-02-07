@@ -9,20 +9,18 @@ import { FacebookStrategy } from './strategies/facebook.strategy';
 import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
 import { AuthMiddleware } from './auth.middleware';
+import { TokenService } from './token.service';
 @Module({
   imports: [    
-    PassportModule.register({ session: false}),
+    PassportModule.register({ session: false }),
     HttpModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
+    JwtModule.register({}),
     SharedModule,
     UserModule
   ],
-  providers: [AuthService, GoogleStrategy, FacebookStrategy],
+  providers: [TokenService, AuthService, GoogleStrategy, FacebookStrategy],
   controllers: [AuthController],
-  exports: [JwtModule],
+  exports: [JwtModule, TokenService],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -31,4 +29,3 @@ export class AuthModule implements NestModule {
       .forRoutes('/auth/facebook/callback', '/auth/google/callback');
   }
 }
-

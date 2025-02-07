@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { TokenStorageService } from '../token-storage/token-storage.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private readonly authService: AuthService, private router: Router) { }
 
   canActivate(): boolean {
-    const token = this.tokenStorage.getToken();
+    const token = this.authService.getAuthToken();
     if (token) {
       return true;
     } else {

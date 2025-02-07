@@ -1,17 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserProfile } from '../shared/utils/interfaces';
-import { UtilsService } from '../shared/utils/utils.service';
 import { UserService } from '../user/user.service';
 import { UpdateUserDto } from '../user/user.dto';
 import { User } from '../user/user.entity';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    private readonly jwtService: JwtService,
-    private readonly utilsService: UtilsService,
+    private readonly tokenService: TokenService,
     private readonly userService: UserService
   ) {}
 
@@ -35,14 +33,34 @@ export class AuthService {
     return user;
   }
 
+  getTokens(payload) {
+    const accessToken = this.tokenService.generateAccessToken(payload);
+    const refreshToken = this.tokenService.generateRefreshToken(payload);
+    return { accessToken, refreshToken };
+  }
+
   async generateToken(userProfile: UserProfile) {
     let user: User  = await this.getUserDetails(userProfile);
-    const profileName =  this.utilsService.capitalizeProfileName(userProfile.profile);
-    const payload = {
+    return this.getTokens({
       sub: user.id,
-      name: profileName,
       email: user.email,
-    };
-    return this.jwtService.sign(payload);
+    });
+  }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const payload:any = this.tokenService.verifyRefreshToken(refreshToken);
+      const user = await this.userService.findByEmail(payload.email);
+      if (!user) {
+        throw new UnauthorizedException('Invalid token');
+      }
+      return this.getTokens({
+        sub: user.id,
+        email: user.email,
+      });
+    } catch (err) {
+      console.error({refreshTokenErr: err});
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 }

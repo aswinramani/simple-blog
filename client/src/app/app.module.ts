@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator'
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule
   ],
   providers: [
     ...appConfig.providers,

@@ -18,8 +18,15 @@ export class PostController {
   @Get()
   async getPosts(@Req() req, @Query('offset') offset: number = 0, @Query('limit') limit: number = 10) {
     const userId:number = req.user.id;
-    const { posts, hasNextPage } = await this.postService.getPaginatedPosts(userId, offset, limit);
-    return { posts, hasNextPage };
+    const posts = await this.postService.getPosts(userId, offset, limit);
+    return posts;
+  }
+
+  @Get('count')
+  async getCount(@Req() req) {
+    const userId:number = req.user.id;
+    const count = await this.postService.countByAuthorId(userId);
+    return {"totalCount": count};
   }
 
   @Get('/:id')
