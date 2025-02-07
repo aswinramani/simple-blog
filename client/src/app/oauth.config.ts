@@ -1,8 +1,9 @@
 import { LogLevel } from "angular-auth-oidc-client";
+import { env } from '../environments/environment';
 
 export const googleConfig = {
-    authority: 'https://accounts.google.com',
-    clientId: 'client-id',
+    authority: env.googleAuthority,
+    clientId: env.googleClientId,
     redirectUrl: window.location.origin + '/login',
     postLogoutRedirectUri: window.location.origin,
     scope: 'openid profile email',
@@ -13,8 +14,8 @@ export const googleConfig = {
 };
 
 export const facebookConfig = {
-    authority: 'https://www.facebook.com',
-    clientId: 'client-id',
+    authority: env.facebookAuthority,
+    clientId: env.facebookAppId,
     redirectUrl: window.location.origin + '/login',
     postLogoutRedirectUri: window.location.origin,
     scope: 'email',

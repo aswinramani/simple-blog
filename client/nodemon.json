@@ -1,0 +1,5 @@
+{
+    "watch": ["src/environments/.env.*"],
+    "exec": "ng serve --port 4201"
+  }
+  

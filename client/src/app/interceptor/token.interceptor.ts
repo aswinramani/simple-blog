@@ -5,6 +5,7 @@ import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { catchError, switchMap, throwError } from "rxjs";
 import { PostService } from "../services/post.service";
+import { RefreshTokenResponse } from "../interfaces/RefreshTokenResponse";
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authService = inject(AuthService);
@@ -25,7 +26,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
         if (httpError.status === 401 && httpError.error.message.toLowerCase().includes('token expired')) {
           console.error({ tokenExpError: httpError });
           return authService.refreshToken().pipe(
-            switchMap((resp) => {
+            switchMap((resp: RefreshTokenResponse) => {
               authService.storeTokenByKey('accessToken', resp.accessToken);
               authService.storeTokenByKey('refreshToken', resp.refreshToken);
               const retryReq = req.clone({
