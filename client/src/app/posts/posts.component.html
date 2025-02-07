@@ -5,12 +5,16 @@
     <div class="create-button">
         <button mat-stroked-button (click)="create()">Create Post</button>
     </div>
-    <div *ngIf="!onGoingRequest && posts.length">
-        <div class="post" *ngFor="let post of posts">
-            <h2 (click)="navigateToDetail(post)">{{ post.title }}</h2>
+    <div *ngIf="!onGoingRequest && paginatedPosts.length">
+        <div class="post" *ngFor="let post of paginatedPosts">
+            <h4 (click)="navigateToDetail(post)">{{ post.title }}</h4>
         </div>
     </div>
-    <div *ngIf="!onGoingRequest && !posts.length">
+    <div *ngIf="!onGoingRequest && !paginatedPosts.length">
         <p>No posts found</p>
     </div>
+    <mat-paginator [length]="totalPosts"
+                   [pageSize]="itemsPerPage"
+                   (page)="loadMore($event)">
+    </mat-paginator>
 </div>
