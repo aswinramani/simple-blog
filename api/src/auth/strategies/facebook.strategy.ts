@@ -1,25 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-facebook';
+import { UserProfile } from './../../shared/interfaces/UserProfile';
+import { constants } from '../../shared/constants';
+import { FaceBookConfig } from 'src/shared/interfaces/AuthConfig';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
-  constructor() {
-    super({
-      clientID: process.env.FB_APP_ID,
-      clientSecret: process.env.FB_APP_SECRET,
-      callbackURL: process.env.FB_CALLBACK_URL,
-      profileFields: ['id', 'name', 'email', 'picture'],
-    });
+export class FacebookStrategy extends PassportStrategy(Strategy, constants.facebook) {
+  constructor(@Inject(constants.FACEBOOK_CONFIG) private readonly faceBookConfig: FaceBookConfig) {
+    super(faceBookConfig);
   }
 
   async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const user = {
-      providerId: profile.id,
-      firstName: profile.displayName,
-      provider: profile.provider,
-      accessToken,
-    };
-    done(null, user);
+    try {
+      const user: UserProfile = {
+        providerUserId: profile.id,
+        provider: profile.provider,
+        profile: profile.name,
+        email: profile.emails[0].value,
+      };
+      done(null, user);
+    } catch (e) {
+      console.error({facebookStrategyError: e});
+      done(e, false);
+    }
   }
 }

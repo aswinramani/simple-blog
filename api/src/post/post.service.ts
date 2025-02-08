@@ -7,26 +7,12 @@ import { CreatePostDto } from './post.dto';
 export class PostService {
   constructor(
     @Inject('POST_REPOSITORY')
-    private readonly postRepository: Repository<Post>,
+    private readonly postRepository: Repository<Post>
   ) {}
 
   async create(postDto: CreatePostDto): Promise<Post> {
     return this.postRepository.save(postDto);
   }
-
-  // async findByAuthorId(
-  //   authorId: number,
-  //   offset: number = 0,
-  //   limit: number = 10,
-  // ): Promise<Post[]> {
-  //   return this.postRepository
-  //     .createQueryBuilder('posts')
-  //     .where('posts.author_id = :author_id', { authorId })
-  //     .orderBy('posts.createdAt', 'DESC')
-  //     .skip(offset)
-  //     .take(limit)
-  //     .getMany();
-  // }
 
   async findByAuthorId(
     authorId: number,
@@ -35,10 +21,10 @@ export class PostService {
   ): Promise<Post[]> {
     return this.postRepository
       .createQueryBuilder('posts')
-      .where('posts.author_id = :authorId', { authorId }) // Ensure author_id matches your column name
+      .where('posts.author_id = :authorId', { authorId })
       .orderBy('posts.createdAt', 'DESC')
-      .offset(offset) // Use offset instead of skip for PostgreSQL compatibility
-      .limit(limit) // Use limit instead of take for PostgreSQL compatibility
+      .offset(offset)
+      .limit(limit)
       .getMany();
   }
 

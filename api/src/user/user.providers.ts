@@ -1,11 +1,12 @@
 
 import { DataSource } from 'typeorm';
 import { User } from './user.entity';
+import { constants } from '../shared/constants';
 
 export const userProviders = [
   {
-    provide: 'USER_REPOSITORY',
+    provide: constants.USER_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(User),
-    inject: ['DATA_SOURCE'],
+    inject: [ constants.DATA_SOURCE ],
   },
 ];

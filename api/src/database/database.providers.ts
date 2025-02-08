@@ -1,47 +1,52 @@
+import { ConfigService } from '@nestjs/config';
+import { constants } from '../shared/constants';
 import { DataSource, QueryRunner } from 'typeorm';
 
-const initDatabase = async function  (dataSource: DataSource) {
-  // Use a QueryRunner to check and create the database if necessary
+const initDatabase = async function(dataSource: DataSource, dbName: string): Promise<void> {
   const queryRunner: QueryRunner = dataSource.createQueryRunner();
-  const dbExists = await queryRunner.query(`SELECT datname FROM pg_database WHERE datname = 'blog';`);
-  if (dbExists.length === 0) {
-    // Create the 'blog' database if it doesn't exist
-    await queryRunner.query(`CREATE DATABASE blog;`);
+  const dbExists = await queryRunner.query(`SELECT datname FROM pg_database WHERE datname = '${dbName}';`);
+  if (!dbExists.length) {
+    await queryRunner.query(`CREATE DATABASE ${dbName};`);
   }
   await queryRunner.release();
 }
 
 export const databaseProviders = [
   {
-    provide: 'DATA_SOURCE',
-    useFactory: async () => {
+    provide: constants.DATA_SOURCE,
+    useFactory: async (configService: ConfigService) => {
+      const dbName = configService.get(constants.dbName);
+      const dbType = configService.get(constants.dbType);
+      const dbHost = configService.get(constants.dbHost);
+      const dbPort = configService.get(constants.dbPort);
+      const dbUserName = configService.get(constants.dbUserName);
+      const dbPassword = configService.get(constants.dbPassword);
+      const dbDefault = configService.get(constants.dbDefault);
+      const dbSync = configService.get(constants.dbSync);
+      const dbMigrationsRun = configService.get(constants.dbMigrationsRun);
       const dataSource = new DataSource({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: 'password',
-        database: 'postgres', // Connect to the default database first
+        type: dbType,
+        host: dbHost,
+        port: dbPort,
+        username: dbUserName,
+        password: dbPassword,
+        database: dbDefault,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/../../migrations/*.{ts,js}'],
-        synchronize: false, // No need to synchronize with the default database
+        synchronize: dbSync,
         extra: {
-          max: 10, // Maximum number of connections in the pool
-          min: 2,  // Minimum number of connections in the pool
-          idleTimeoutMillis: 30000, // Time before a connection is considered idle
+          max: configService.get(constants.dbMaxPool),
+          min: configService.get(constants.dbMinPool),
+          idleTimeoutMillis: configService.get(constants.dbIdleTimeout),
         },
       });
-
       await dataSource.initialize();
-
-      await initDatabase(dataSource);
-
-      // Update the connection options to use the 'blog' database
-      Object.assign(dataSource.options, { database: 'blog', synchronize: true, migrationsRun: true });
-      await dataSource.destroy(); // Close the initial connection
-      await dataSource.initialize(); // Initialize the connection to the 'blog' database
-
+      await initDatabase(dataSource, dbName);
+      Object.assign(dataSource.options, { database: dbName, synchronize: dbSync, migrationsRun: dbMigrationsRun });
+      await dataSource.destroy();
+      await dataSource.initialize();
       return dataSource;
     },
+    inject: [ConfigService]
   },
 ];

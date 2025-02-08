@@ -1,14 +1,14 @@
-// user.service.ts
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { UserProfile } from '../shared/utils/interfaces';
+import { UserProfile } from '../shared/interfaces/UserProfile';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { constants } from '../shared/constants';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject(constants.USER_REPOSITORY)
     private readonly userRepository: Repository<User>,
   ) {}
 

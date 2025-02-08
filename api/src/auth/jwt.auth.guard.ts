@@ -2,6 +2,8 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 import { Reflector } from '@nestjs/core';
 import { UserService } from '../user/user.service';
 import { TokenService } from './token.service';
+import { DecodedToken } from '../shared/interfaces/DecodedToken';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -24,8 +26,8 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException('Unauthorized');
     }
     try {
-      const decoded:any = this.tokenService.verifyAccessToken(token);
-      const user = await this.userService.findByUserId(decoded.sub);
+      const decoded:DecodedToken = this.tokenService.verifyAccessToken(token);
+      const user:User = await this.userService.findByUserId(decoded.sub);
       if (!user) {
         throw new UnauthorizedException('Unauthorized');
       }
