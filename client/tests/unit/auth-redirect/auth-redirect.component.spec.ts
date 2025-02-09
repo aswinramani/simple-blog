@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthRedirectComponent } from './auth-redirect.component';
+import { AuthRedirectComponent } from '../../../src/app/auth-redirect/auth-redirect.component';
 
 describe('AuthRedirectComponent', () => {
   let component: AuthRedirectComponent;
