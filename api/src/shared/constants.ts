@@ -1,6 +1,6 @@
 export const constants = {
     port: 'port',
-    baseUrl: 'baseUrl',
+    host: 'host',
     googleClientId: 'googleClientId',
     googleClientSecret: 'googleClientSecret',
     googleCallBackPath: 'googleCallBackPath',
@@ -13,7 +13,6 @@ export const constants = {
     facebookScopes: 'facebookScopes',
     FACEBOOK_CONFIG: 'FACEBOOK_CONFIG',
     facebook: 'facebook',
-    redirectPath: 'redirectPath',
     token: 'token',
     tokenExpiry: 'tokenExpiry',
     refreshToken: 'refreshToken',
@@ -46,4 +45,9 @@ export const POST_ROUTES = {
     BASE: "posts",
     COUNT: "count",
     ID: "/:id",
+};
+
+export enum ErrorTypes {
+    UNAUTHORIZED = "Unauthorized",
+    TOKEN_EXPIRED = "Token expired",
 };

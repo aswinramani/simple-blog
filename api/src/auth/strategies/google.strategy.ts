@@ -10,15 +10,16 @@ export class GoogleStrategy extends PassportStrategy(Strategy, constants.google)
   constructor(@Inject(constants.GOOGLE_CONFIG) private readonly googleConfig: GoogleConfig) {
     super(googleConfig);
   }
-  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
+  async validate(req: any, accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
     try {
+      const state = req.query.state;
       const user: UserProfile = {
         providerUserId: profile.id,
         provider: profile.provider,
         profile: profile.name,
         email: profile.emails[0].value
       };
-      done(null, user);
+      done(null, {user, state});
     } catch (e) {
       console.error({googleStrategyError: e});
       done(e, false);

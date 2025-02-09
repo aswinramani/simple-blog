@@ -14,7 +14,7 @@ import { PostResponse } from '../interfaces/PostResponse';
   providedIn: 'root'
 })
 export class PostService {
-  private apiUrl = env.apiUrl;
+  private host = env.host;
   private postDetailData: Post | undefined;
 
   constructor(
@@ -23,19 +23,19 @@ export class PostService {
   ) {}
 
   async getPosts(offset: number, limit: number): Promise<Post[]> {
-    return firstValueFrom(this.http.get<Post[]>(`${this.apiUrl}/posts?offset=${offset}&limit=${limit}`));
+    return firstValueFrom(this.http.get<Post[]>(`${this.host}/posts?offset=${offset}&limit=${limit}`));
   }
 
   async getCount(): Promise<PostCount> {
-    return firstValueFrom(this.http.get<PostCount>(`${this.apiUrl}/posts/count`));
+    return firstValueFrom(this.http.get<PostCount>(`${this.host}/posts/count`));
   }
 
   async getPostById(postId: string): Promise<PostResponse> {
-    return firstValueFrom(this.http.get<PostResponse>(`${this.apiUrl}/posts/${postId}`));
+    return firstValueFrom(this.http.get<PostResponse>(`${this.host}/posts/${postId}`));
   }
 
   async createPost(postData: PostBody): Promise<Post> {
-    return firstValueFrom(this.http.post<Post>(`${this.apiUrl}/posts`, postData));
+    return firstValueFrom(this.http.post<Post>(`${this.host}/posts`, postData));
   }
 
   setPostDetailData(post: Post): void {

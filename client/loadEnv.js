@@ -10,16 +10,19 @@ const targetPath = `./src/environments/environment.ts`;
 const envConfigFile = `
 export const env = {
   name: '${environment}',
-  apiUrl: '${process.env.apiUrl}',
+  host: '${process.env.host}',
   googleClientId: '${process.env.googleClientId}',
-  facebookAppId: '${process.env.facebookAppId}',
-  googleRedirectUri: '${process.env.googleRedirectUri}',
-  facebookRedirectUri: '${process.env.facebookRedirectUri}',
-  redirectUri: '${process.env.redirectUri}',
-  googleAuthUrl: '${process.env.googleAuthUrl}',
-  facebookAuthUrl: '${process.env.facebookAuthUrl}',
+  googleRedirectPath: '${process.env.googleRedirectPath}',
   googleAuthority: '${process.env.googleAuthority}',
-  facebookAuthority: '${process.env.facebookAuthority}'
+  googleAuthUrl: '${process.env.googleAuthUrl}',
+  googleScopes: '${process.env.googleScopes}',
+  facebookAppId: '${process.env.facebookAppId}',
+  facebookRedirectPath: '${process.env.facebookRedirectPath}',
+  facebookAuthUrl: '${process.env.facebookAuthUrl}',
+  facebookAuthority: '${process.env.facebookAuthority}',
+  facebookScopes: '${process.env.facebookScopes}',
+  responseType: '${process.env.responseType}',
+  state: '${process.env.state}',
 };
 `;
 

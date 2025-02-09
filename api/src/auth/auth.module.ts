@@ -21,31 +21,37 @@ import { constants, AUTH_ROUTES } from '../shared/constants';
     UserModule
   ],
   providers: [
+    TokenService,
+    AuthService,
+    GoogleStrategy,
     {
       provide: constants.GOOGLE_CONFIG,
       useFactory: (configService: ConfigService) => {
         return {
           clientID: configService.get<string>(constants.googleClientId),
           clientSecret: configService.get<string>(constants.googleClientSecret),
-          callbackURL: configService.get<string>(constants.baseUrl) + configService.get<string>(constants.googleCallBackPath),
-          scope: configService.get<string[]>(constants.googleScopes)
+          callbackURL: configService.get<string>(constants.host) + configService.get<string>(constants.googleCallBackPath),
+          scope: configService.get<string[]>(constants.googleScopes),
+          passReqToCallback: true
         };
       },
       inject: [ConfigService],
     },
+    FacebookStrategy,
     {
       provide: constants.FACEBOOK_CONFIG,
       useFactory: (configService: ConfigService) => {
         return {
           clientID: configService.get<string>(constants.facebookAppId), 
           clientSecret: configService.get<string>(constants.facebookAppSecret),
-          callbackURL: configService.get<string>(constants.baseUrl) + configService.get<string>(constants.facebookCallBackPath),
-          profileFields: configService.get<string[]>(constants.facebookScopes)
+          callbackURL: configService.get<string>(constants.host) + configService.get<string>(constants.facebookCallBackPath),
+          profileFields: configService.get<string[]>(constants.facebookScopes),
+          passReqToCallback: true
         };
       },
       inject: [ConfigService],
     },
-    TokenService, AuthService, GoogleStrategy, FacebookStrategy],
+    ],
   controllers: [AuthController],
   exports: [JwtModule, TokenService],
 })

@@ -1,6 +1,6 @@
 export default () => ({
   port: process.env.PORT || 3100,
-  baseUrl: process.env.BASE_URL,
+  host: process.env.HOST,
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
   googleCallBackPath: process.env.GOOGLE_CALLBACK_PATH,
@@ -9,7 +9,6 @@ export default () => ({
   facebookAppSecret: process.env.FACEBOOK_APP_SECRET,
   facebookCallBackPath: process.env.FACEBOOK_CALLBACK_PATH,
   facebookScopes: process.env.FACEBOOK_SCOPES.split(','),
-  redirectPath: process.env.REDIRECT_PATH,
   token: process.env.TOKEN,
   tokenExpiry: process.env.TOKEN_EXPIRY,
   refreshToken: process.env.REFRESH_TOKEN,
@@ -26,5 +25,5 @@ export default () => ({
   dbMinPool: Number(process.env.DB_MIN_POOL),
   dbMaxPool: Number(process.env.DB_MAX_POOL),
   dbIdleTimeout: Number(process.env.DB_IDLE_TIMEOUT),
-  allowedOrigins: process.env.ALLOWED_ORIGINS.split(','),
+  allowedOrigins: process.env.ALLOWED_ORIGINS.split(',')
 });

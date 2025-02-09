@@ -2,7 +2,7 @@
     <div *ngIf="onGoingRequest">
         <p>Loading...</p>
     </div>
-    <div class="post-content" *ngIf="!onGoingRequest">
+    <div class="post-content" *ngIf="!onGoingRequest && post">
         <h2 >{{ post.title }}</h2>
         <h4>{{ post.content }}</h4>
     </div>

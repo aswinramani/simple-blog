@@ -46,26 +46,28 @@ export class AuthService {
   }
 
   refreshToken(): Observable<RefreshTokenResponse> {
-    return this.http.post<RefreshTokenResponse>(`${env.apiUrl}/auth/refresh`, {refreshToken: this.getRefreshToken()});
+    return this.http.post<RefreshTokenResponse>(`${env.host}/auth/refresh`, {refreshToken: this.getRefreshToken()});
   }
 
   googleLogin(): void {
     const clientId = env.googleClientId;
-    const redirectUri = env.googleRedirectUri;
+    const redirectUri = env.host + env.googleRedirectPath;
     const googleAuthUrl = env.googleAuthUrl;
-    const responseType = 'code';
-    const scope = 'openid email profile';
-    const authUrl = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=consent`;
+    const responseType = env.responseType;
+    const scope = env.googleScopes;
+    const state = env.state;
+    let authUrl = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=consent`;
     window.location.href = authUrl;
   }
 
   facebookLogin(): void {
     const facebookAppId = env.facebookAppId;
-    const redirectUri = env.facebookRedirectUri;
+    const redirectUri = env.host + env.facebookRedirectPath;
     const facebookAuthUrl = env.facebookAuthUrl;
-    const responseType = 'code';
-    const scope = 'email public_profile';
-    const authUrl = `${facebookAuthUrl}?client_id=${facebookAppId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}`;
+    const responseType = env.responseType;
+    const scope = env.facebookScopes;
+    const state = env.state;
+    let authUrl = `${facebookAuthUrl}?client_id=${facebookAppId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&response_type=${responseType}&scope=${encodeURIComponent(scope)}`;
     window.location.href = authUrl;
   }
 
