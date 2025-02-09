@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { catchError, switchMap, throwError } from "rxjs";
 import { PostService } from "../services/post.service";
 import { RefreshTokenResponse } from "../interfaces/RefreshTokenResponse";
+import { constants, ErrorTypes } from "../shared/constants";
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authService = inject(AuthService);
@@ -17,21 +18,21 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
   if (isPostState && !isPostDetail && !req.url.includes('refresh')) {
     const newReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `${constants.tokenType} ${authToken}`,
       },
     });
     return next(newReq)
     .pipe(
       catchError((httpError: HttpErrorResponse) => {
-        if (httpError.status === 401 && httpError.error.message.toLowerCase().includes('token expired')) {
+        if (httpError.status === 401 && httpError.error.message.toLowerCase().includes(ErrorTypes.TOKEN_EXPIRED)) {
           console.error({ tokenExpError: httpError });
           return authService.refreshToken().pipe(
             switchMap((resp: RefreshTokenResponse) => {
-              authService.storeTokenByKey('accessToken', resp.accessToken);
-              authService.storeTokenByKey('refreshToken', resp.refreshToken);
+              authService.storeTokenByKey(constants.accessToken, resp.accessToken);
+              authService.storeTokenByKey(constants.refreshToken, resp.refreshToken);
               const retryReq = req.clone({
                 setHeaders: {
-                  Authorization: `Bearer ${resp.accessToken}`,
+                  Authorization: `${constants.tokenType} ${resp.accessToken}`,
                 },
               });
               return next(retryReq);
