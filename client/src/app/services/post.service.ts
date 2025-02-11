@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Post } from '../interfaces/Post';
 import { PostCount } from '../interfaces/PostCount';
-import { FormGroup } from '@angular/forms';
-import { PostForm } from '../interfaces/PostForm';
 import { env } from '../../environments/environment';
 import { PostBody } from '../interfaces/PostBody';
 import { PostResponse } from '../interfaces/PostResponse';

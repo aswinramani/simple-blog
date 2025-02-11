@@ -26,13 +26,9 @@ export class NewPostComponent {
   }
 
   async submit(): Promise<void> {
-    try {
-      if (this.postForm?.valid) {
-        await this.postService.createPost(this.postForm.value);
-        this.router.navigate(['/posts']);
-      }
-    } catch (e) {
-      console.error('Error creating post', e);
+    if (this.postForm?.valid) {
+      await this.postService.createPost(this.postForm.value);
+      this.router.navigate(['/posts']);
     }
   }
 }
