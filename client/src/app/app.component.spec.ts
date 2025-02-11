@@ -4,12 +4,9 @@ import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
 import { MockAuthService } from './services/mock-auth.service';
 import { PostService } from './services/post.service';
-// import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { provideRouter } from '@angula     r/router/testing';
 
 describe('AppComponent', () => {
   let component: AppComponent;
