@@ -8,6 +8,14 @@ module.exports = {
   collectCoverageFrom: [
     '**/*.(t|j)s',
   ],
+  coveragePathIgnorePatterns: [
+    "\\.module\\.ts$",
+    "\\.dto\\.ts$",
+    "\\.entity\\.ts$",
+    "\\.providers\\.ts$",
+    "./config/",
+    "main.ts"
+  ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   coverageThreshold: {

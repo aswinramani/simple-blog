@@ -2,6 +2,7 @@ interface AuthConfig {
     clientID: string;
     clientSecret: string;
     callbackURL: string;
+    passReqToCallback: boolean;
 };
 
 export interface GoogleConfig extends AuthConfig {
