@@ -11,7 +11,6 @@ export class AuthMiddleware implements NestMiddleware {
         return res.redirect(`${state}?error=${req.query.error}`);
       }
     } catch (e) {
-      console.error("Unexpected Middleware Error ",{error: e});
       throw new UnauthorizedException(ErrorTypes.UNAUTHORIZED);
     }
     next();

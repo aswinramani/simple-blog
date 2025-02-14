@@ -31,7 +31,8 @@ export const constants = {
     dbMaxPool: 'dbMaxPool',
     dbIdleTimeout: 'dbIdleTimeout',
     allowedOrigins: 'allowedOrigins',
-    USER_REPOSITORY: 'USER_REPOSITORY'
+    USER_REPOSITORY: 'USER_REPOSITORY',
+    POST_REPOSITORY: 'POST_REPOSITORY',
 };
 
 export const AUTH_ROUTES = {
@@ -50,4 +51,9 @@ export const POST_ROUTES = {
 export enum ErrorTypes {
     UNAUTHORIZED = "Unauthorized",
     TOKEN_EXPIRED = "Token expired",
+    INVALID_TOKEN = "Invalid token"
+};
+
+export const mockValues = {
+    state: "https://blogger.dev",
 };

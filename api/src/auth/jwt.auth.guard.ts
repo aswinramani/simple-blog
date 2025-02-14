@@ -22,7 +22,7 @@ export class JwtAuthGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const authTokenList = request.headers.authorization?.split(' ');
-    const token = authTokenList[authTokenList.length-1];
+    const token = authTokenList && authTokenList.length ? authTokenList[authTokenList.length-1] : null;
     if (!token) {
       throw new UnauthorizedException(ErrorTypes.UNAUTHORIZED);
     }
@@ -35,7 +35,6 @@ export class JwtAuthGuard implements CanActivate {
       request.user = user;
       return true;
     } catch (err) {
-      console.error("Unexpected Auth Error ",{error: err});
       if (err.name === 'TokenExpiredError') {
         throw new UnauthorizedException(ErrorTypes.TOKEN_EXPIRED);
       }

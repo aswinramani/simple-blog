@@ -64,7 +64,6 @@ export class AuthService {
       }
       return this.getTokens(refreshPayload);
     } catch (err) {
-      console.error({refreshTokenErr: err});
       throw new UnauthorizedException('Invalid token');
     }
   }

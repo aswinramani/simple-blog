@@ -1,8 +1,8 @@
-import { Controller, Get, UseGuards, Req, Res, Post, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Res, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
-import { constants, AUTH_ROUTES } from '../shared/constants';
+import { constants, AUTH_ROUTES, ErrorTypes } from '../shared/constants';
 import { TokenData } from 'src/shared/interfaces/TokenData';
 
 @Controller(AUTH_ROUTES.BASE)
@@ -36,9 +36,8 @@ export class AuthController {
       const { accessToken, refreshToken }: TokenData = await this.authService.refreshToken(body.refreshToken);
       res.json({ accessToken, refreshToken });
     } catch (e) {
-      console.error({refreshErr: e});
-      throw e;
+      res.status(HttpStatus.UNAUTHORIZED).json({ message: ErrorTypes.INVALID_TOKEN });
     }
   }
 
-}
+} 
