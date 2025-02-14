@@ -7,4 +7,4 @@
 **/.gitignore
 client/.editorconfig
 client/src/environments/environment.ts
-client/coverage
+**/coverage
