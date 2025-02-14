@@ -58,7 +58,7 @@ export class PostsComponent implements OnInit {
   loadMore(event: PageEvent): void {
     this.offset = event.pageIndex * event.pageSize;
     this.limit = event.pageSize;
-    if (this.posts.length < this.totalPosts) {
+    if (this.posts.length < this.totalPosts && this.offset + this.limit > this.posts.length) {
       this.loadPosts();
     }
   }

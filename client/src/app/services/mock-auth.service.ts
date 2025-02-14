@@ -18,7 +18,6 @@ export class MockAuthService {
   ) {}
 
   storeTokenByKey(tokenKey: string, token: string): void {
-    // Mock implementation
     if (tokenKey === 'accessToken') {
       this.loggedIn.next(true);
     }
@@ -33,10 +32,6 @@ export class MockAuthService {
     return 'mockAuthToken';
   }
 
-  private getRefreshToken(): string | null {
-    return 'mockRefreshToken';
-  }
-
   refreshToken(): Observable<RefreshTokenResponse> {
     return of({
       accessToken: 'mockAccessToken',
@@ -45,10 +40,8 @@ export class MockAuthService {
   }
 
   googleLogin(): void {
-    // Mock implementation
   }
 
   facebookLogin(): void {
-    // Mock implementation
   }
 }

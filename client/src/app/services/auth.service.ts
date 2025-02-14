@@ -49,6 +49,10 @@ export class AuthService {
     return this.http.post<RefreshTokenResponse>(`${env.host}/auth/refresh`, {refreshToken: this.getRefreshToken()});
   }
 
+  navigateToOAuthUrl(authUrl: string): void {
+    window.location.href = authUrl;
+  }
+
   googleLogin(): void {
     const clientId = env.googleClientId;
     const redirectUri = env.host + env.googleRedirectPath;
@@ -57,7 +61,8 @@ export class AuthService {
     const scope = env.googleScopes;
     const state = env.state;
     let authUrl = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=consent`;
-    window.location.href = authUrl;
+    // window.location.href = authUrl;
+    this.navigateToOAuthUrl(authUrl);
   }
 
   facebookLogin(): void {
@@ -68,7 +73,7 @@ export class AuthService {
     const scope = env.facebookScopes;
     const state = env.state;
     let authUrl = `${facebookAuthUrl}?client_id=${facebookAppId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&response_type=${responseType}&scope=${encodeURIComponent(scope)}`;
-    window.location.href = authUrl;
+   this.navigateToOAuthUrl(authUrl);
   }
 
 }
