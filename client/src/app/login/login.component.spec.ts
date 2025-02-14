@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../services/auth.service';
-import { MockAuthService } from '../services/mock-auth.service';
+import { MockAuthService } from '../shared/mock-auth.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 

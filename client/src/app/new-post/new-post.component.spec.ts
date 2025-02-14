@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NewPostComponent } from './new-post.component';
 import { PostService } from '../services/post.service';
-import { MockPostService } from '../services/mock-post.service';
+import { MockPostService } from '../shared/mock-post.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';

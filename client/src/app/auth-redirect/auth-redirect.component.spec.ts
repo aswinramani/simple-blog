@@ -6,7 +6,7 @@ import { AuthRedirectComponent } from './auth-redirect.component';
 import { constants } from '../shared/constants';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { MockAuthService } from '../services/mock-auth.service';
+import { MockAuthService } from '../shared/mock-auth.service';
 
 
 describe('AuthRedirectComponent', () => {

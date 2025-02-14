@@ -3,7 +3,7 @@ import { PostDetailComponent } from './post-detail.component';
 import { PostService } from '../services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { MockPostService } from '../services/mock-post.service';
+import { MockPostService } from '../shared/mock-post.service';
 
 describe('PostDetailComponent', () => {
   let component: PostDetailComponent;

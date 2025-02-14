@@ -3,7 +3,7 @@ import { PostsComponent } from './posts.component';
 import { PostService } from '../services/post.service';
 import { Router } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MockPostService } from '../services/mock-post.service';
+import { MockPostService } from '../shared/mock-post.service';
 
 
 describe('PostsComponent', () => {

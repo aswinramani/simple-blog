@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectorRef } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
-import { MockAuthService } from './services/mock-auth.service';
 import { PostService } from './services/post.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MockAuthService } from './shared/mock-auth.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;

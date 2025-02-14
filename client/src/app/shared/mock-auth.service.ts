@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { PostService } from './post.service';
 import { RefreshTokenResponse } from '../interfaces/RefreshTokenResponse';
+import { PostService } from '../services/post.service';
 
 @Injectable({
   providedIn: 'root'
