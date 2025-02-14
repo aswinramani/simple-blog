@@ -31,7 +31,7 @@ export class PostDetailComponent implements OnInit {
         if (!response["data"]) {
           this.router.navigate(['/posts']);
         }
-        this.post = response["data"];
+        this.post = response["data"] as Post;
         this.onGoingRequest =  false;
       });
     } else {
