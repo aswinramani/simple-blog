@@ -31,7 +31,6 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(newReq).pipe(
         catchError((httpError: HttpErrorResponse) => {
           if (httpError.status === 401 && httpError.error.message.toLowerCase().includes(ErrorTypes.TOKEN_EXPIRED)) {
-            console.error({ tokenExpError: httpError });
 
             return this.authService.refreshToken().pipe(
               switchMap((resp: RefreshTokenResponse) => {
@@ -47,13 +46,11 @@ export class AuthInterceptor implements HttpInterceptor {
                 return next.handle(retryReq);
               }),
               catchError((refreshError: HttpErrorResponse) => {
-                console.error({ refreshError: refreshError });
                 this.authService.logout();
                 return throwError(() => refreshError);
               })
             );
           } else {
-            console.error({ unAuthError: httpError });
             this.authService.logout();
             return throwError(() => httpError);
           }
@@ -63,7 +60,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error) => {
-        console.error('Public interceptError occurred:', error);
         return throwError(() => new Error(error));
       })
     );
