@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Run the command to start the NestJS development server
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:local"]

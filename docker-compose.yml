@@ -17,11 +17,11 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
 
 networks:
   blog_default:

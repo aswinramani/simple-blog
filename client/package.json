@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",
-    "start:local": "node loadEnv.js local && ng serve --port 4201",
+    "start:local": "node loadEnv.js local && ng serve --host 0.0.0.0 --port 4201",
     "build:local": "node loadEnv.js local && ng build --port 4201",
     "start:nodemon": "node loadEnv.js local && nodemon",
     "build": "ng build",

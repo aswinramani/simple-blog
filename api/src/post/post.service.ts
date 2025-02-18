@@ -35,7 +35,6 @@ export class PostService {
       .where('posts.author_id = :authorId', { authorId })
       .getCount();
   }
-  
 
   async findByPostId(id: string): Promise<Post> {
     return this.postRepository.findOne({

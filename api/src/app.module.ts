@@ -6,6 +6,8 @@ import { PostModule } from './post/post.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt.auth.guard';
 import { CustomConfigModule } from './config/custom.config.module';
+import { MemoryProfilingService } from './memory-profiling/memory-profiling.service';
+import { MemoryProfilingController } from './memory-profiling/memory-profiling.controller';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { CustomConfigModule } from './config/custom.config.module';
     DatabaseModule,
     PostModule,
   ],
+  controllers: [MemoryProfilingController],
   providers: [
+    MemoryProfilingService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
