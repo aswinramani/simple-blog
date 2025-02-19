@@ -9,3 +9,4 @@ client/.editorconfig
 client/src/environments/environment.ts
 **/coverage
 **/*.*.heapsnapshot
+.env

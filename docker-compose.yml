@@ -5,23 +5,33 @@ services:
       - "8080:4201"
     depends_on:
       - api
-
+    env_file:
+      - ./client/.env.docker
+    networks:
+      - blog_default
   api:
     build: ./api
     ports:
       - "3010:3100"
+    depends_on:
+      - db
+    env_file:
+      - ./api/.env.docker
     networks:
-      blog_default:
-        ipv4_address: 172.19.0.10
+      - blog_default
 
   db:
     image: postgres
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "5433:5432"
+    networks:
+      - blog_default
 
 networks:
   blog_default:

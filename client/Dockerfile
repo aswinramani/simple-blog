@@ -13,11 +13,8 @@ RUN npm install
 # Copy the application code to the working directory
 COPY . .
 
-# Expose port 4200 for the Angular development server
-EXPOSE 4200
-
-# # Run the command to start the Angular development server
-# CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Expose port 8080 for the Angular development server
+EXPOSE 8080
 
 # Run the command to start the Angular development server
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:docker"]

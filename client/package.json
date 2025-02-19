@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --port 4201",
     "start:local": "node loadEnv.js local && ng serve --port 4201",
+    "start:docker": "node loadEnv.js docker && ng serve --port 4201 --host 0.0.0.0",
     "build:local": "node loadEnv.js local && ng build --port 4201",
     "start:nodemon": "node loadEnv.js local && nodemon",
     "build": "ng build",

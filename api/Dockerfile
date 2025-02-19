@@ -13,8 +13,8 @@ RUN npm install
 # Copy the application code to the working directory
 COPY . .
 
-# Expose port 3000 for the NestJS development server
-EXPOSE 3000
+# Expose port 3010 for the NestJS development server
+EXPOSE 3010
 
 # Run the command to start the NestJS development server
-CMD ["npm", "run", "start:local"]
+CMD ["npm", "run", "start:docker"]
