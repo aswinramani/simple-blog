@@ -12,7 +12,6 @@ client/src/environments/environment.ts
 .env
 terraform/variables.tf
 terraform/.terraform/
-terraform/tflan
 terraform/modules/
 terraform/.terraform.lock.hcl
 secrets-command.txt
