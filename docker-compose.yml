@@ -2,7 +2,7 @@ services:
   client:
     build: ./client
     ports:
-      - "8080:4201"
+      - "8080:80"
     depends_on:
       - api
     env_file:

@@ -1,20 +1,32 @@
-# Use an official Node.js 18 image as a base
-FROM node:18
+# Use an official Node.js runtime as a parent image
+FROM node:18 AS build
 
-# Set the working directory to /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package*.json files to the working directory
+# Copy the package.json and package-lock.json files
 COPY package*.json ./
 
-# Install the dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the application code to the working directory
+# Copy the rest of the application code
 COPY . .
 
-# Expose port 8080 for the Angular development server
-EXPOSE 8080
+# Build the application
+RUN npm run build --prod
 
-# Run the command to start the Angular development server
-CMD ["npm", "run", "start:docker"]
+# Use a lightweight web server to serve the static files
+FROM nginx:alpine
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy the build output to the nginx html directory
+COPY --from=build /app/dist/client/browser /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
