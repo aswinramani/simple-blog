@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "NODE_ENV=docker nest build",
-    "start:dev": "NODE_ENV=docker node dist/main",
+    "build": "NODE_ENV=dev nest build",
+    "start:dev": "NODE_ENV=dev node dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:local": "NODE_ENV=local nest start",
