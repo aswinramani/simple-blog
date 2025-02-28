@@ -59,6 +59,10 @@ data "aws_secretsmanager_secret_version" "db_family" {
   secret_id = "db_family"
 }
 
+data "aws_ssm_parameter" "amazon_linux_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+}
+
 # VPC Module
 module "vpc" {
   source          = "terraform-aws-modules/vpc/aws"
@@ -68,6 +72,29 @@ module "vpc" {
   public_subnets  = jsondecode(data.aws_secretsmanager_secret_version.public_subnets.secret_string)
   private_subnets = jsondecode(data.aws_secretsmanager_secret_version.private_subnets.secret_string)
   enable_nat_gateway = true
+}
+
+resource "aws_instance" "bastion" {
+  ami           = data.aws_ssm_parameter.amazon_linux_ami.value
+  instance_type = "t3.micro"
+  subnet_id     = module.vpc.public_subnets[0]
+  security_groups = [aws_security_group.bastion_sg.id]
+  key_name      = var.bastion_key_name
+
+  tags = {
+    Name = "bastion-host"
+  }
+}
+
+resource "aws_security_group" "bastion_sg" {
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.bastion_cidr]
+  }
 }
 
 # EKS Cluster with Managed Node Groups
@@ -87,6 +114,31 @@ module "eks" {
   }
 }
 
+# RDS Security Group
+resource "aws_security_group" "rds_sg" {
+  vpc_id = module.vpc.vpc_id
+}
+
+# Allow access from EKS worker nodes
+resource "aws_security_group_rule" "rds_from_eks" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
+  source_security_group_id = module.eks.cluster_security_group_id
+}
+
+# Allow access from Bastion EC2
+resource "aws_security_group_rule" "rds_from_bastion" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
+  source_security_group_id = aws_security_group.bastion_sg.id
+}
+
 # RDS Instance
 module "rds" {
   source                 = "terraform-aws-modules/rds/aws"
@@ -95,7 +147,7 @@ module "rds" {
   username               = data.aws_secretsmanager_secret_version.db_username.secret_string
   password               = data.aws_secretsmanager_secret_version.db_password.secret_string
   manage_master_user_password = false
-  vpc_security_group_ids = [module.vpc.default_security_group_id]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   publicly_accessible    = false
 
@@ -119,6 +171,11 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   subnet_ids = module.vpc.private_subnets
 }
 
+resource "aws_eip" "bastion_eip" {
+  instance = aws_instance.bastion.id
+  domain   = "vpc"
+}
+
 # Outputs
 output "eks_cluster_name" {
   value = module.eks.cluster_name
@@ -127,5 +184,10 @@ output "eks_cluster_name" {
 
 output "rds_endpoint" {
   value = module.rds.db_instance_endpoint
+  sensitive  = true
+}
+
+output "bastion_public_ip" {
+  value = aws_eip.bastion_eip.public_ip
   sensitive  = true
 }
