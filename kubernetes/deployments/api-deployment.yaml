@@ -20,9 +20,15 @@ spec:
         - name: api
           image: ${API_IMAGE}
           ports:
-            - containerPort: 3010
+            - containerPort: 3100
           envFrom:
             - secretRef:
                 name: api-env
           imagePullPolicy: Always
-
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"

@@ -16,8 +16,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Expose port 3010 for the NestJS development server
-EXPOSE 3010
+# Expose port 3100 for the NestJS development server
+EXPOSE 3100
 
 # Run the command to start the NestJS development server
 CMD ["npm", "run", "start:dev"]
