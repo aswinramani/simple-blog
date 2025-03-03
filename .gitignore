@@ -21,3 +21,5 @@ kubernetes/secrets/
 **/*.tfstate.backup
 iampolicy.json
 commands/kubectlcmd/cmds.txt
+kubernetes/controller-policy.json
+kubernetes/trust-relationship.json
