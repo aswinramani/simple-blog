@@ -105,6 +105,9 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.private_subnets
 
+  cluster_endpoint_public_access = var.cluster_public_access
+  cluster_endpoint_private_access = var.cluster_private_access
+
   eks_managed_node_groups = {
     managed_nodes = {
       min_size     = 1
@@ -119,7 +122,6 @@ resource "aws_security_group" "rds_sg" {
   vpc_id = module.vpc.vpc_id
 }
 
-# Allow access from EKS worker nodes
 resource "aws_security_group_rule" "rds_from_eks" {
   type                     = "ingress"
   from_port                = 5432
@@ -129,7 +131,6 @@ resource "aws_security_group_rule" "rds_from_eks" {
   source_security_group_id = module.eks.cluster_security_group_id
 }
 
-# Allow access from Bastion EC2
 resource "aws_security_group_rule" "rds_from_bastion" {
   type                     = "ingress"
   from_port                = 5432
@@ -139,7 +140,17 @@ resource "aws_security_group_rule" "rds_from_bastion" {
   source_security_group_id = aws_security_group.bastion_sg.id
 }
 
-# RDS Instance
+# RDS Instance with Parameter Group
+resource "aws_db_parameter_group" "rds_params" {
+  name   = "rds-params"
+  family = data.aws_secretsmanager_secret_version.db_family.secret_string
+
+  parameter {
+    name  = var.rds_param_key
+    value = var.rds_param_value
+  }
+}
+
 module "rds" {
   source                 = "terraform-aws-modules/rds/aws"
   identifier             = data.aws_secretsmanager_secret_version.db_name.secret_string
@@ -150,6 +161,7 @@ module "rds" {
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   publicly_accessible    = false
+  parameter_group_name   = aws_db_parameter_group.rds_params.name
 
   engine            = data.aws_secretsmanager_secret_version.rds_engine.secret_string
   major_engine_version   = data.aws_secretsmanager_secret_version.db_engine_version.secret_string
@@ -157,7 +169,6 @@ module "rds" {
   instance_class         = data.aws_secretsmanager_secret_version.rds_instance_class.secret_string
 }
 
-# ECR Repositories
 resource "aws_ecr_repository" "client" {
   name = "client"
 }
@@ -176,7 +187,6 @@ resource "aws_eip" "bastion_eip" {
   domain   = "vpc"
 }
 
-# Outputs
 output "eks_cluster_name" {
   value = module.eks.cluster_name
   sensitive = true
