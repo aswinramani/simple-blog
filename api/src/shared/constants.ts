@@ -33,6 +33,7 @@ export const constants = {
     allowedOrigins: 'allowedOrigins',
     USER_REPOSITORY: 'USER_REPOSITORY',
     POST_REPOSITORY: 'POST_REPOSITORY',
+    prefix: 'prefix'
 };
 
 export const AUTH_ROUTES = {

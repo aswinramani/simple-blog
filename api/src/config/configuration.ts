@@ -25,5 +25,6 @@ export default () => ({
   dbMinPool: Number(process.env.DB_MIN_POOL),
   dbMaxPool: Number(process.env.DB_MAX_POOL),
   dbIdleTimeout: Number(process.env.DB_IDLE_TIMEOUT),
-  allowedOrigins: process.env.ALLOWED_ORIGINS.split(',')
+  allowedOrigins: process.env.ALLOWED_ORIGINS.split(','),
+  prefix: process.env.PREFIX
 });
